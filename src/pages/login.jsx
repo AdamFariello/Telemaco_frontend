@@ -60,9 +60,7 @@ export default function LoginPage() {
         </form>
         <br /> 
      
-        <div>
-            New user? Then click
-            <Link to="/signup"><div>here</div></Link>
-        </div>
+        New user? <br />
+        Then click <Link to="/signup">here</Link>
     </>)
 }
