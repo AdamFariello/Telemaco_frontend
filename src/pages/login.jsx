@@ -4,8 +4,10 @@ import axios from "axios";
 
 import UserProfile from "./userProfile";
 
-//const urlDomain = "http://localhost:4008/";
-const url = "http://localhost:4008/api/auth/";
+
+//const url = "http://localhost:4008/api/auth/";
+//const url = process.env.REACT_APP_PORT + "/api/auth/";
+const url = import.meta.env.VITE_APP_PORT + "/api/auth/";
 
 export default function LoginPage() {
     const [formData, setFormData] = useState({username: "", password: "", });
@@ -19,10 +21,10 @@ export default function LoginPage() {
         e.preventDefault();
         try {
             let res = await axios.post(url, formData);
-            
             navigate(`/user/${formData.username}`);
         } catch (e) { 
             console.error(e.message);
+            window.alart("TEST");
         }
     }
 
