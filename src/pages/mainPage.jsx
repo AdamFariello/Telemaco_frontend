@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 
-import PdfReactPdf from "./pdfViewer";
 import "./mainPage.css";
 
 export default function MainPage() {
@@ -10,8 +9,6 @@ export default function MainPage() {
         {/*<PDFViewer />*/}
 
         {/*<PdfReactPdf src="http://biblehub.info/pdfs/kjv.pdf" />*/}
-        <PdfReactPdf src="./document.pdf" />   
-
         
         <div>
             <button onClick={() => navigate(`/login`)}>Login</button>
