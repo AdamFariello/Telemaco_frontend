@@ -7,7 +7,6 @@ import SignupPage from "./pages/signup";
 import UserProfile from "./pages/userProfile";
 import MainPage from './pages/mainPage';
 
-//import PdfViewer from "./pages/pdfViewer.reactPdf"; 
 import PdfViewer from "./pages/pdfViewer";
 
 function App() {
