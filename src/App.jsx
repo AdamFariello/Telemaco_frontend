@@ -7,7 +7,7 @@ import SignupPage from "./pages/signup";
 import UserProfile from "./pages/userProfile";
 import MainPage from './pages/mainPage';
 
-import PdfViewer from "./pages/pdfViewer";
+import PdfViewer from "./pages/pdfPages/pdfViewer";
 
 function App() {
   
