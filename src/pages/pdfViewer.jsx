@@ -10,6 +10,8 @@ export default function PdfReactPdf({ src="./document.pdf" }) {
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
 
+
+
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
@@ -18,17 +20,20 @@ export default function PdfReactPdf({ src="./document.pdf" }) {
     setPageNumber((v) => v + incOrDec);
   }
 
+  //TODO: Check if it's maxwidth I need to apply
   return (<>
     <h1>Reading, "Building a Second Brain"</h1>
-    <div style={{ width: "100%", height: "100%",}}>
-      <button onClick={() => changePage(-1)} disabled={pageNumber <= 1}>
-        Previous
-      </button>
-      <button onClick={() => changePage(1)} disabled={pageNumber >= (numPages ?? -1)}>
-        Next
-      </button>
+    <div style={{ width: "auto", height: "100%", display: "flex", flexDirection: "column", alignItems: "center"}}>
+      <div style={{width: "auto"}}>
+        <button onClick={() => changePage(-1)} disabled={pageNumber <= 1}>
+          Previous
+        </button>
+        <button onClick={() => changePage(1)} disabled={pageNumber >= (numPages ?? -1)}>
+          Next
+        </button>
+      </div>
 
-      <div style={{width: "50%", height: "auto", margin: "auto" }}>
+      <div style={{width: "auto", height: "auto", marginRight: "auto", marginLeft: "auto"}}>
         <Document
           file={src}
           onLoadSuccess={onDocumentLoadSuccess}
