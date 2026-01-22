@@ -1,3 +1,9 @@
+# NEWS
+This repo will be abbondoned, and instead will be moved to a new repo.   
+Which you can find here:   
+https://github.com/AdamFariello/Telemaco_frontend
+
+---
 # Perscholas Capstone
 ## Link to backend
 https://github.com/AdamFariello/capStone_BackEnd

@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "csass": "npm sass src/pages/pdfPages/pdfViewerSettings.scss test.css -w"
   },
   "dependencies": {
     "axios": "^1.12.2",
@@ -30,6 +31,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
+    "sass": "^1.97.2",
     "vite": "^7.1.7"
   }
 }
