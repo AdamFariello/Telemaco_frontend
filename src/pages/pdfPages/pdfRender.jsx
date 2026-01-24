@@ -4,9 +4,33 @@ import { Document, Page } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 
+
 export default function PdfRender({ src="./document.pdf" }) {
   const [numPages, setNumPages] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
+
+  /*
+  //Stolen from jfiddle
+  // https://jsfiddle.net/timdown/SW54T/
+  function getSelectedText() {
+      var text = "";
+      if (typeof window.getSelection != "undefined") {
+          text = window.getSelection().toString();
+      } else if (typeof document.selection != "undefined" && document.selection.type == "Text") {
+          text = document.selection.createRange().text;
+      }
+      return text;
+  } 
+  function doSomethingWithSelectedText() {
+    var selectedText = getSelectedText();
+    if (selectedText) {
+        alert("Got selected text " + selectedText);
+    }
+  }
+  document.onmouseup = doSomethingWithSelectedText;
+  document.onkeyup = doSomethingWithSelectedText;
+  */
+
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
