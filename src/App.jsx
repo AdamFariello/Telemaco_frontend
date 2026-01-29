@@ -8,6 +8,7 @@ import UserProfile from "./pages/userProfile";
 import MainPage from './pages/mainPage';
 
 import PdfViewer from "./pages/pdfPages/pdfViewer";
+import EpubGenerator from './pages/epub/epubGenerator';
 
 function App() {
   
@@ -18,6 +19,7 @@ function App() {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/user/:id" element={<UserProfile />} />
       <Route path="/pdf/" element={<PdfViewer />} />
+      <Route path="/epub/" element={<EpubGenerator />} />
     </Routes>
   </>)
 }
