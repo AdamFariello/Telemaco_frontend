@@ -9,7 +9,9 @@ export default function EpubGenerator() {
     //For epub
     const [selections, setSelections] = useState(undefined);
     const rendition = useRef([]);
+
     const [displayPage, setDisplayPage] = useState(page);
+    const [displayChapter, setDisplayChapter] = useState(0);
     const tableOfContents = useRef([]); //TODO: if using typescript, add <NavItem[]> specifically
 
     //Stolen from jfiddle
@@ -22,7 +24,8 @@ export default function EpubGenerator() {
             text = document.selection.createRange().text;
         }
         return text;
-    } 
+    }
+
 
     /*
     //TODO: Function that streamlines extracting page number
@@ -60,7 +63,8 @@ export default function EpubGenerator() {
         <h1>Example to highlight in comparison</h1>
         {/*----------------------------------------------------------------------------------------------------------------------------------------------------------*/}
         <div style={{ width: "100vh", height: '100vh' }} sandbox="allow-scripts">
-            <p>This is page: {displayPage}</p> {/*TODO: optimize*/}
+            <p>{displayPage}</p> {/*TODO: optimize*/}
+
             <ReactReader
                 url="./example.epub"
                 title="Dog world" //TODO: Add dynamic title adder (Needed?)
@@ -79,10 +83,11 @@ export default function EpubGenerator() {
                             item.href === href
                         )
 
-                        setDisplayPage(
-                            `${displayed.page} / ${displayed.total}`
-                        );
-                        console.log(rendition.current.location.start);
+                        setDisplayPage(`${displayed.page} of ${displayed.total}`);
+                        setDisplayChapter(`Chapter ${chapter.label}`)
+                    
+                        console.log(chapter);
+                        //console.log(rendition.current.location.start);
                     }
                 }}
                 getRendition={(_rendition) => {
@@ -96,6 +101,7 @@ export default function EpubGenerator() {
                     */
                 }}
             />
+            <p>{displayChapter}</p> {/*TODO: Figure out if this should be included*/}
         </div>
     </>)
 }
