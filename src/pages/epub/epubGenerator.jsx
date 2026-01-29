@@ -9,12 +9,10 @@ export default function EpubGenerator() {
     const rendition = useRef([]);
     const tableOfContents = useRef([]); //TODO: if using typescript, add <NavItem[]> specifically
     
-    const inputFieldPageNum = useRef(page);
-
     const [displayPage, setDisplayPage] = useState(undefined); //displayed.page, displayed.total
     const [displayChapter, setDisplayChapter] = useState(undefined);
+    const [inputFieldLeft, setInputFieldLeft] = useState(0); //TODO: change if doing 2nd input field
 
-    //NOW: Function that gets the current page display number
     function updateDisplayPage(epubcfi) {
         setPage(epubcfi);
         if (rendition.current && tableOfContents.current) {
@@ -22,14 +20,17 @@ export default function EpubGenerator() {
             const chapter = tableOfContents.current.find((item) => 
                 item.href === href
             )
-
-            setDisplayPage(displayed);
             
+            setDisplayPage(displayed);
+            setInputFieldLeft(displayed.page);
+
             //TODO: Figure out why this randomly gives a blank
-            if (chapter)
-                //setDisplayChapter(`Chapter: ${chapter.label}`)
-                setDisplayChapter(chapter)
+            if (chapter) setDisplayChapter(chapter)
         }
+    }
+
+    function inputFieldPageNumUpdate() {
+        console.log(inputFieldLeft);
     }
 
     /*
@@ -61,7 +62,8 @@ export default function EpubGenerator() {
     }), [rendition]
     */
 
-    console.log(inputFieldPageNum.current)
+    console.log(`input field test: ${inputFieldLeft}`);
+
     return(<>
         <button onClick={() => doSomethingWithSelectedText}>
             test
@@ -76,10 +78,11 @@ export default function EpubGenerator() {
             
             <input
                 type="text"
+                onKeyDown={inputFieldPageNumUpdate}
                 name="pageNumber"
-                value={page}
-                placeholder={page}
-                onChange={(e) => inputFieldPageNum.current = e}
+                value={inputFieldLeft}
+                placeholder={inputFieldLeft}
+                onChange={(e) => setInputFieldLeft(e.target.value)}
             />
             
             <ReactReader
