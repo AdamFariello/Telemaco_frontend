@@ -14,6 +14,22 @@ export default function EpubGenerator() {
     const [displayPage, setDisplayPage] = useState(page);
     const [displayChapter, setDisplayChapter] = useState(0);
 
+    //NOW: Function that gets the current page display number
+    function updateDisplayPage(epubcfi) {
+        setPage(epubcfi);
+        if (rendition.current && tableOfContents.current) {
+            const { displayed, href } = rendition.current.location.start
+            const chapter = tableOfContents.current.find((item) => 
+                item.href === href
+            )
+
+            setDisplayPage(`${displayed.page} of ${displayed.total}`);
+            
+            //TODO: Figure out why this randomly gives a blank
+            if (chapter)
+                setDisplayChapter(`Chapter: ${chapter.label}`)
+        }
+    }
 
     /*
     //TODO: Function that streamlines extracting page number
@@ -71,21 +87,7 @@ export default function EpubGenerator() {
 
                 tocChanged={(_toc) => (tableOfContents.current = _toc)}
                 location={location}
-                locationChanged={(epubcfi) => { 
-                    setPage(epubcfi);
-                    if (rendition.current && tableOfContents.current) {
-                        const { displayed, href } = rendition.current.location.start
-                        const chapter = tableOfContents.current.find((item) => 
-                            item.href === href
-                        )
-
-                        setDisplayPage(`${displayed.page} of ${displayed.total}`);
-                        setDisplayChapter(`Chapter ${chapter.label}`)
-                    
-                        console.log(chapter);
-                        //console.log(rendition.current.location.start);
-                    }
-                }}
+                locationChanged={updateDisplayPage}
                 getRendition={(_rendition) => {
                     rendition.current = _rendition;
                     /*TODO: figure if needed (think it's for highlighting)
