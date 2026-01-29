@@ -11,8 +11,8 @@ export default function EpubGenerator() {
     
     const inputFieldPageNum = useRef(page);
 
-    const [displayPage, setDisplayPage] = useState(page);
-    const [displayChapter, setDisplayChapter] = useState(0);
+    const [displayPage, setDisplayPage] = useState(undefined); //displayed.page, displayed.total
+    const [displayChapter, setDisplayChapter] = useState(undefined);
 
     //NOW: Function that gets the current page display number
     function updateDisplayPage(epubcfi) {
@@ -23,11 +23,12 @@ export default function EpubGenerator() {
                 item.href === href
             )
 
-            setDisplayPage(`${displayed.page} of ${displayed.total}`);
+            setDisplayPage(displayed);
             
             //TODO: Figure out why this randomly gives a blank
             if (chapter)
-                setDisplayChapter(`Chapter: ${chapter.label}`)
+                //setDisplayChapter(`Chapter: ${chapter.label}`)
+                setDisplayChapter(chapter)
         }
     }
 
@@ -68,7 +69,11 @@ export default function EpubGenerator() {
         <h1>Example to highlight in comparison</h1>
         {/*----------------------------------------------------------------------------------------------------------------------------------------------------------*/}
         <div style={{ width: "100vh", height: '100vh' }} sandbox="allow-scripts">
-            <p>{displayPage}</p> {/*TODO: optimize*/}
+            <p>{
+                displayPage ? `${displayPage.page} of ${displayPage.total}` : 
+                "0 of 0"
+            }</p> {/*TODO: optimize*/}
+            
             <input
                 type="text"
                 name="pageNumber"
@@ -99,7 +104,10 @@ export default function EpubGenerator() {
                     */
                 }}
             />
-            <p>{displayChapter}</p> {/*TODO: Figure out if this should be included*/}
+            <p>{ 
+                displayChapter ? `Chapter: ${displayChapter.label}` : 
+                "Chapter: null"
+            }</p> {/*TODO: Figure out if this should be included*/}
         </div>
     </>)
 }
