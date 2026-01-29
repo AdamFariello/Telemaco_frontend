@@ -3,18 +3,24 @@ import { ReactReader } from "react-reader";
 
 import { Book, Contents, Rendition } from "epubjs";
 
+//TODO: Make a seperate file that calls this file for book element
+
 export default function EpubGenerator() {
     const [page, setPage] = useState(0);
     const [selections, setSelections] = useState(undefined);
     const rendition = useRef([]);
     const tableOfContents = useRef([]); //TODO: if using typescript, add <NavItem[]> specifically
-    
+
+    //TODO: Change these variables for when implementing the book on the right side
     const [displayPage, setDisplayPage] = useState(undefined); //displayed.page, displayed.total
     const [displayChapter, setDisplayChapter] = useState(undefined);
-    const [inputFieldLeft, setInputFieldLeft] = useState(0); //TODO: change if doing 2nd input field
+    const [inputFieldLeft, setInputFieldLeft] = useState(0); 
+
+    let reFilter = (s) => s.replaceAll(/\D*/gi, "");
 
     function updateDisplayPage(epubcfi) {
         setPage(epubcfi);
+        console.log(epubcfi)
         if (rendition.current && tableOfContents.current) {
             const { displayed, href } = rendition.current.location.start
             const chapter = tableOfContents.current.find((item) => 
@@ -29,8 +35,16 @@ export default function EpubGenerator() {
         }
     }
 
-    function inputFieldPageNumUpdate() {
-        console.log(inputFieldLeft);
+    function inputFieldLeftUpdate(e) {
+        if (e.key === "Enter") {
+            //TODO: Add function, or connect function, to change the page
+            if (displayPage && inputFieldLeft < displayPage.total) {
+                cfiFromPage(inputFieldLeft);
+                //setDisplayChapter({...displayPage, displayPage.page:inputFieldLeft})
+                setFormData({...formData, [e.target.name]:e.target.value});
+
+            }
+        } 
     }
 
     /*
@@ -62,8 +76,6 @@ export default function EpubGenerator() {
     }), [rendition]
     */
 
-    console.log(`input field test: ${inputFieldLeft}`);
-
     return(<>
         <button onClick={() => doSomethingWithSelectedText}>
             test
@@ -74,31 +86,33 @@ export default function EpubGenerator() {
             <p>{
                 displayPage ? `${displayPage.page} of ${displayPage.total}` : 
                 "0 of 0"
-            }</p> {/*TODO: optimize*/}
+            }</p> {/*LATER: optimize*/}
             
+            {/*LATER: Do more testing to make sure if letters can sneak in*/}
             <input
                 type="text"
-                onKeyDown={inputFieldPageNumUpdate}
                 name="pageNumber"
                 value={inputFieldLeft}
                 placeholder={inputFieldLeft}
-                onChange={(e) => setInputFieldLeft(e.target.value)}
+                onChange={e => {setInputFieldLeft(reFilter(e.target.value))}}
+                onKeyDown={inputFieldLeftUpdate}
+                
             />
             
             <ReactReader
                 url="./example.epub"
-                title="Dog world" //TODO: Add dynamic title adder (Needed?)
+                title="Dog world" //LATER: Add dynamic title adder (Needed?)
                 epubOptions={{
-                    allowPopups: true, //TODO: figure out if needed
+                    allowPopups: true, //LATER: figure out if needed
                     allowScriptedContent: true, //REQUIRED, OR ELSE IT BREAKS RENDITION
                 }}
 
                 tocChanged={(_toc) => (tableOfContents.current = _toc)}
-                location={location}
+                location={page}
                 locationChanged={updateDisplayPage}
                 getRendition={(_rendition) => {
                     rendition.current = _rendition;
-                    /*TODO: figure if needed (think it's for highlighting)
+                    /*LATER: figure if needed (think it's for highlighting)
                     _rendition.hooks.content.register((contents) => {
                         const document = contents.window.document;
                         console.log(document);
@@ -108,9 +122,9 @@ export default function EpubGenerator() {
                 }}
             />
             <p>{ 
-                displayChapter ? `Chapter: ${displayChapter.label}` : 
-                "Chapter: null"
-            }</p> {/*TODO: Figure out if this should be included*/}
+                displayChapter ? `Current Chapter: ${displayChapter.label}` : 
+                "Current Chapter: null"
+            }</p> {/*LATER: Figure out if this should be included*/}
         </div>
     </>)
 }
