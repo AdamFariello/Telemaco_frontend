@@ -5,26 +5,14 @@ import { Book, Contents, Rendition } from "epubjs";
 
 export default function EpubGenerator() {
     const [page, setPage] = useState(0);
-
-    //For epub
     const [selections, setSelections] = useState(undefined);
     const rendition = useRef([]);
+    const tableOfContents = useRef([]); //TODO: if using typescript, add <NavItem[]> specifically
+    
+    const inputFieldPageNum = useRef(page);
 
     const [displayPage, setDisplayPage] = useState(page);
     const [displayChapter, setDisplayChapter] = useState(0);
-    const tableOfContents = useRef([]); //TODO: if using typescript, add <NavItem[]> specifically
-
-    //Stolen from jfiddle
-    // https://jsfiddle.net/timdown/SW54T/
-    function getSelectedText() {
-        var text = "";
-        if (typeof window.getSelection != "undefined") {
-            text = window.getSelection().toString();
-        } else if (typeof document.selection != "undefined" && document.selection.type == "Text") {
-            text = document.selection.createRange().text;
-        }
-        return text;
-    }
 
 
     /*
@@ -56,6 +44,7 @@ export default function EpubGenerator() {
     }), [rendition]
     */
 
+    console.log(inputFieldPageNum.current)
     return(<>
         <button onClick={() => doSomethingWithSelectedText}>
             test
@@ -64,7 +53,14 @@ export default function EpubGenerator() {
         {/*----------------------------------------------------------------------------------------------------------------------------------------------------------*/}
         <div style={{ width: "100vh", height: '100vh' }} sandbox="allow-scripts">
             <p>{displayPage}</p> {/*TODO: optimize*/}
-
+            <input
+                type="text"
+                name="pageNumber"
+                value={page}
+                placeholder={page}
+                onChange={(e) => inputFieldPageNum.current = e}
+            />
+            
             <ReactReader
                 url="./example.epub"
                 title="Dog world" //TODO: Add dynamic title adder (Needed?)
