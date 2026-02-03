@@ -8,7 +8,7 @@ import { Book, Contents, Rendition } from "epubjs";
 export default function EpubGenerator() {
     const [page, setPage] = useState(0);
     const [selections, setSelections] = useState(undefined);
-    const rendition = useRef([]);
+    const rendition = useRef([]); //TODO: figure out if I should use useState or useRef 
     const tableOfContents = useRef([]); //TODO: if using typescript, add <NavItem[]> specifically
 
     //TODO: Change these variables for when implementing the book on the right side
@@ -39,7 +39,8 @@ export default function EpubGenerator() {
         if (e.key === "Enter") {
             //TODO: Add function, or connect function, to change the page
             if (displayPage && inputFieldLeft < displayPage.total) {
-                cfiFromPage(inputFieldLeft);
+                //TODO: Fill
+
                 //setDisplayChapter({...displayPage, displayPage.page:inputFieldLeft})
                 setFormData({...formData, [e.target.name]:e.target.value});
 
@@ -88,6 +89,7 @@ export default function EpubGenerator() {
                 "0 of 0"
             }</p> {/*LATER: optimize*/}
             
+            {/*TODO: Figure out if I should include a button for search*/}
             {/*LATER: Do more testing to make sure if letters can sneak in*/}
             <input
                 type="text"
@@ -96,9 +98,8 @@ export default function EpubGenerator() {
                 placeholder={inputFieldLeft}
                 onChange={e => {setInputFieldLeft(reFilter(e.target.value))}}
                 onKeyDown={inputFieldLeftUpdate}
-                
             />
-            
+
             <ReactReader
                 url="./example.epub"
                 title="Dog world" //LATER: Add dynamic title adder (Needed?)
@@ -111,7 +112,10 @@ export default function EpubGenerator() {
                 location={page}
                 locationChanged={updateDisplayPage}
                 getRendition={(_rendition) => {
+                    //TODO: Use rendition to figure out the page field stuff.
                     rendition.current = _rendition;
+                    
+                    
                     /*LATER: figure if needed (think it's for highlighting)
                     _rendition.hooks.content.register((contents) => {
                         const document = contents.window.document;
