@@ -20,7 +20,7 @@ export default function EpubGenerator() {
 
     function updateDisplayPage(epubcfi) {
         setPage(epubcfi);
-        console.log(epubcfi)
+        console.log("updateDisplayPage:", epubcfi)
         if (rendition.current && tableOfContents.current) {
             const { displayed, href } = rendition.current.location.start
             const chapter = tableOfContents.current.find((item) => 
@@ -112,9 +112,12 @@ export default function EpubGenerator() {
                 location={page}
                 locationChanged={updateDisplayPage}
                 getRendition={(_rendition) => {
-                    //TODO: Use rendition to figure out the page field stuff.
                     rendition.current = _rendition;
-                    
+                    _rendition.hooks.content.register((contents) => {
+                        //TODO: use for future features
+                        const document = contents.window.document;
+                        console.log("Document: ", document); 
+                    });
                     
                     /*LATER: figure if needed (think it's for highlighting)
                     _rendition.hooks.content.register((contents) => {
