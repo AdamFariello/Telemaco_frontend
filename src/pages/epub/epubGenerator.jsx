@@ -5,7 +5,8 @@ import { Book, Contents, Rendition } from "epubjs";
 
 //TODO: Make a seperate file that calls this file for book element
 
-export default function EpubGenerator() {
+export default function EpubGenerator({epubLink = "./example.epub"}) { //TODO: replace default epub file
+    /*Declarations*/
     const [page, setPage] = useState(0);
     const [selections, setSelections] = useState(undefined);
     const rendition = useRef([]); //TODO: figure out if I should use useState or useRef 
@@ -16,6 +17,8 @@ export default function EpubGenerator() {
     const [displayChapter, setDisplayChapter] = useState(undefined);
     const [inputFieldLeft, setInputFieldLeft] = useState(0); 
 
+
+    /*Functions*/
     let reFilter = (s) => s.replaceAll(/\D*/gi, "");
 
     function updateDisplayPage(epubcfi) {
@@ -77,13 +80,10 @@ export default function EpubGenerator() {
     }), [rendition]
     */
 
+
+    /*Rest*/
     return(<>
-        <button onClick={() => doSomethingWithSelectedText}>
-            test
-        </button>
-        <h1>Example to highlight in comparison</h1>
-        {/*----------------------------------------------------------------------------------------------------------------------------------------------------------*/}
-        <div style={{ width: "100vh", height: '100vh' }} sandbox="allow-scripts">
+        <div style={{ width: "100vh", height: '100vh', marginLeft:"5px", marginRight:"5px" }} sandbox="allow-scripts">
             <p>{
                 displayPage ? `${displayPage.page} of ${displayPage.total}` : 
                 "0 of 0"
@@ -101,8 +101,9 @@ export default function EpubGenerator() {
             />
 
             <ReactReader
-                url="./example.epub"
-                title="Dog world" //LATER: Add dynamic title adder (Needed?)
+                url={epubLink} 
+
+                title="Dog world" //TODO: Add dynamic title adder (Needed?)
                 epubOptions={{
                     allowPopups: true, //LATER: figure out if needed
                     allowScriptedContent: true, //REQUIRED, OR ELSE IT BREAKS RENDITION
