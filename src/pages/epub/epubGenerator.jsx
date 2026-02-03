@@ -89,8 +89,7 @@ export default function EpubGenerator({epubLink = "./example.epub"}) { //TODO: r
                 "0 of 0"
             }</p> {/*LATER: optimize*/}
             
-            {/*TODO: Figure out if I should include a button for search*/}
-            {/*LATER: Do more testing to make sure if letters can sneak in*/}
+            {/*TODO: Add later, right now just want the outline of the site done
             <input
                 type="text"
                 name="pageNumber"
@@ -99,6 +98,7 @@ export default function EpubGenerator({epubLink = "./example.epub"}) { //TODO: r
                 onChange={e => {setInputFieldLeft(reFilter(e.target.value))}}
                 onKeyDown={inputFieldLeftUpdate}
             />
+            */}
 
             <ReactReader
                 url={epubLink} 
